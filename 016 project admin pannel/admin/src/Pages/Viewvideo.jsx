@@ -113,8 +113,20 @@ function Viewvideo() {
     catch{
       alert('something went wrong');
     }
-
   };
+
+  const handleSearch = async(e) =>{
+    // console.log(e.target.value)
+    if(!e.target.value) return handleFetchVideo();
+    try{
+      const response = await axios.get(`http://localhost:5200/videos/search_video/${e.target.value}`);
+      if(response.status !== 200) return alert('Something went wrong');
+      setvideoData(response.data.data)
+    }
+    catch(error){
+      alert('Something went wrong');
+    }
+  }; 
 
   return (
   <div>
@@ -129,6 +141,7 @@ function Viewvideo() {
         <h1 className='text-[25px] font-[500] mb-[10px]'>
         Welcome To Admin Panel
         </h1>
+        <input type="text" placeholder="search" className='w-full border border-black p-[10px_20px]' onChange={handleSearch}/>
         <div className=''>
         <div className='bg-white w-[100%] mb-[50px] p-4 h-full rounded-[20px]'>
           <table >
@@ -174,4 +187,4 @@ function Viewvideo() {
   )
 }
 
-export default Viewvideo
+export default Viewvideo;

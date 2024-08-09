@@ -12,11 +12,14 @@ const adminLogin = async(req,res) => {
         if(ifMail.password !== req.body.password) return res.status(402).json({message : 'invalid password'});
 
         //destructuring
-        const{password, ...adminData} = ifMail._doc; //actual obj->inside another obj key _doc //It hide password
+
+        const{password, ...adminData} = ifMail._doc;
+         
+        //actual obj->inside another obj key ._doc //It hide password
         //...adminData = it is rest oprt. 
         //password = it is'nt present inside obj(nikal diya isko)
 
-        console.log(adminData);
+        // console.log(adminData);
 
 
         JWT.sign({ifMail}, process.env.JWT_KEY, {expiresIn: 60*60*24*7}, (error, token)=>{

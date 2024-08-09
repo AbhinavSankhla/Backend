@@ -1,15 +1,33 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import logo from '../img/logo (1).svg'
 import minlogo from '../img/logo-mini.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { mainContext } from '../Context'
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router'
 
 function Header() {
-
+  const nav = useNavigate();
   
   let {changemenu,setchangeMenu} = useContext(mainContext);
-  
+
+  const IfAdminLoggedIn = ()=>{
+
+    const ifAdmin = Cookies.get('admin');
+    // console.log(ifAdmin);
+
+    if(!ifAdmin){
+      nav('/');
+    }
+  };
+
+  useEffect(()=>{IfAdminLoggedIn()}, []);
+
+  const logOutAdmin = ()=>{
+    Cookies.remove('admin');
+    nav('/');
+  }; 
   
   return (
     <>
@@ -28,12 +46,10 @@ function Header() {
               
             </a>
             </div>
-            
-            
             <div className={`flex items-center lg:order-2 w-[84%] duration-[0.5s] ${changemenu==true ? 'w-[97%]' : 'w-[84%]'}  justify-between`}>
                 <FontAwesomeIcon icon={faBars} onClick={()=>setchangeMenu(!changemenu)}/>
                 <div>
-                <a href="#" className="text-gray-800   focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log Out</a>
+                <button onClick={logOutAdmin} className="text-gray-800   focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log Out</button>
                 <a href="#" className=" bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">My Profile</a>
                 </div>
             

@@ -1,15 +1,30 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { mainContext } from '../Context';
 import Header from '../Common/Header';
 import Sidebar from '../Common/Sidebar';
 import Footer from '../Common/Footer';
 import prev from '../img/generic-image-file-icon-hi.png'
 import axios from 'axios';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 function Addteam() {
   const nav = useNavigate();
+  const params = useParams();
+
+  const fetchdata = async(id) =>{
+    const res = await axios.get(`http://localhost:5200/team/fetch_team_with_id/${id}`);
+    console.log(res.data.data)
+
+  }
+
+  if(params._id){
+    fetchdata();
+  }
+
+
   let {changemenu} = useContext(mainContext);
+  const [imgPrev, setimgPrev] = useState('');
+
 
   const handleAddTeam = async(e) =>{
     e.preventDefault();
@@ -32,6 +47,22 @@ function Addteam() {
       alert('something went wrong');
     }
   }
+
+  const handleImgPrev = (e)=>{
+    const reader = new FileReader();
+
+    const file = e.target.files[0];
+
+    if(file){
+      reader.readAsDataURL(file);
+    }
+
+    reader.onload = ()=>{
+      // console.log(reader.result)
+      setimgPrev(reader.result)
+    }
+  };  
+
   return (
     <div>
 
@@ -54,14 +85,14 @@ function Addteam() {
             <input name="memberCat" type="text" className='border border-gray-400 w-full h-[50px] mb-3 mt-2 px-4 '  />
             Member Image
 
-            <input name="thumbnail" type="file" id='file-input' className='border hidden border-gray-400 w-full h-[50px] mb-3 mt-2 '/>
+            <input name="thumbnail" onChange={handleImgPrev} type="file" id='file-input' className='border hidden border-gray-400 w-full h-[50px] mb-3 mt-2 '/>
             <div className='flex items-center gap-0 mt-[80px]'>
               <div className='w-full flex items-center'>
             <input type="text" readOnly placeholder='Upload File' className=' px-4 rounded-[10px_0px_0px_10px] border border-gray-400 w-[70%] h-[50px]' />
             <label id="file-input-label" for="file-input" className='border block  bg-[#4B49AC] text-white text-center leading-[50px]  w-[10%] rounded-[0px_20px_20px_0px] h-[50px]  '>Upload</label>
             </div>
             <div className=''>
-              <img src={prev} alt="" width={150} />
+              <img src={imgPrev || prev} alt="" width={150} />
             </div>
             </div>
            

@@ -13,6 +13,7 @@ import { useNavigate, useParams } from 'react-router';
 function Addcourse() {
   const nav = useNavigate(); //react router
   const params = useParams();
+  const [imgPrev, setimgPrev] = useState('');
   const [data, setData] = useState({});
   // console.log(data)
 
@@ -35,15 +36,12 @@ function Addcourse() {
 
   let {changemenu} = useContext(mainContext);
 
-  const [imgPrev, setimgPrev] = useState('');
-
   const handleAddCourse = async(e) => {
-    
-    //preventDefault: Jis bhi function or tag ka jo bhi default work hoga, usko hone se rokega.
+
     e.preventDefault();
 
     const form = e.target; //it target form(form mill jayega)
-    const formData = new FormData(form); //it is constructor //makes form data as a form jo ki js mai form formate hota hai vese.
+    const formData = new FormData(form); //it is constructor //makes form data as a form jo ki JS mai form formate hota hai vese.
 
     //conditions for update and add course
     //if addCourse url(param) mai id leke aayega then... 
@@ -73,6 +71,8 @@ function Addcourse() {
       }
     }
   };
+
+  
 
   const handleImgPrev = (e)=>{
     const reader = new FileReader();

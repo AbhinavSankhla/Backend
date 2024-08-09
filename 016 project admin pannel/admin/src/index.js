@@ -40,7 +40,7 @@ const router = createBrowserRouter([
     element:<Addvideo/>
   },
   {
-    path:"addteam",
+    path:"addteam/:_id?",
     element:<Addteam/>
   },
   {

@@ -13,7 +13,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'src', 'uploads')));
 
 app.use(allRoutes);
 
-registerAdmin();
+// registerAdmin();
 
 app.listen(process.env.PORT, ()=> {
     console.log(`server is running on port ${process.env.PORT}`)

@@ -8,7 +8,7 @@ const addTeam = async(req,res) => {
         if(req.file){
             teamData.thumbnail = req.file.filename;
         }
-        console.log(teamData); 
+        // console.log(teamData); 
 
         const data = new Team(teamData);
         const response = await data.save();

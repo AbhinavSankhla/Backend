@@ -13,16 +13,16 @@ function Addvideo() {
 
   const fetchData = async(id) =>{
     const res = await axios.get(`http://localhost:5200/videos/fetch_video_with_id/${id}`);
-    console.log(res.data.data);
+    console.log(res.data);
   }
 
   if(param._id){
-    fetchData();
+    console.log(param._id)
+    fetchData(param._id);
   }
 
   let {changemenu} = useContext(mainContext);
   const [courseData, setcourseData] = useState([]);
-  const [filePath, setfilePath] = useState('');
   const [data, setdata] = useState({});
 
   

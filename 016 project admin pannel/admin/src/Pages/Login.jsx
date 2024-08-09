@@ -1,11 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../Common/Header'
 import logo from '../img/logo (1).svg';
-
 import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
 function Login() {
 
   const nav = useNavigate();  //redirect to dashboard
+
+  const IfAdminLoggedIn = ()=>{
+
+    const ifAdmin = Cookies.get('admin');
+    console.log(ifAdmin);
+
+    if(ifAdmin){
+      nav('/dashboard');
+    }
+
+  };
+
+  useEffect(()=>{IfAdminLoggedIn()}, []);
 
   const [admindata, setAdmindata] = useState({});
 
@@ -21,21 +35,18 @@ function Login() {
       body:JSON.stringify(admindata)
     });
 
-
     if(response.status === 200){
       const data = await response.json();
+      // console.log(data);
+      // console.log(data.data);
 
-      console.log(data);
-
+      Cookies.set('admin', JSON.stringify(data.data));
       nav('/dashboard');
     }
-
     else{
       alert("Invalid Credentials");
     }
-
   };
-
 
   return (
    
@@ -45,7 +56,7 @@ function Login() {
             <h3 className='text-black text-[16px] font-[400]'>Sign in to continue.</h3>
         <form action="">
             <input type="text" name='mail' onChange={(e)=>{setAdmindata({...admindata, mail:e.target.value})}} className=' mt-5 px-7 text-[16px] focus:outline-blue-400 w-full h-[50px] border border-1 border-[#c5c0c0]' placeholder='Mail'  />
-            <input type="text" name='password'  onChange={(e)=>{setAdmindata({...admindata, password:e.target.value})}} className=' mt-6 mb-5 px-7 text-[16px] focus:outline-blue-400 w-full h-[50px] border border-1 border-[#c5c0c0]' placeholder='Password'  />
+            <input type="text" name='password'  onChange={(e)=>{setAdmindata({...admindata, password:e.target.value})}} className=' mt-6 mb-5 px-7 text-[16px] focus:outline-blue-400 w-full h-[50px] border border-1 border-[#c5c0c0]' placeholder='Password'/>
 
             <Link><input type="button" onClick={handleLogIn} value='Login' className='w-full bg-[#4B49AC] text-center text-[30px] text-white py-5 rounded-[18px] font-[arial] font-[400]' /></Link>
         <div className='flex items-center mt-4 justify-between mb-4'>
